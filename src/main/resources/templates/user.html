@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/mylogout" style="text-decoration: none;">Logout
+</a>
+
+<table border="1"  >
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>userType</th>
+        <th>Age</th>
+        <th th:if="${current.blocked==1}">Edit</th>
+    </tr>
+    <tr >
+        <td  th:if="${current!=null}" th:text="${current.id}"></td>
+        <td th:text="${current.name}"></td>
+        <td th:text="${current.userType}"></td>
+        <td th:text="${current.age}"></td>
+        <td th:if="${current.blocked==1}"><a  th:href="@{/user/edit(id=${current.id})}" >Edit</a></td>
+    </tr>
+
+</table>
+</body>
+</html>

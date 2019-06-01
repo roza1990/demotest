@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/mylogout" style="text-decoration: none;">Logout</a>
+| <a href="/user/register">Add User</a>
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>lastLoginTime</th>
+        <th>lastLogoutTime</th>
+        <th>UserType</th>
+        <th>Delete</th>
+        <th>Edit</th>
+
+    </tr>
+    <tr th:each="u : ${users}">
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.name}"></td>
+        <td th:text="${u.age}"></td>
+        <td th:text="${u.lastLoginTime}"></td>
+        <td th:text="${u.lastLogoutTime}"></td>
+        <td th:text="${u.userType}"></td>
+        <td><a th:href="@{/user/delete(id=${u.id})}">Delete</a></td>
+        <td><a th:href="@{/user/edit(id=${u.id})}">Edit</a></td>
+    </tr>
+
+</table>
+</body>
+</html>

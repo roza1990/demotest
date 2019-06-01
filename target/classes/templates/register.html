@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<form th:action="@{/register}"  method="post" style="text-align: center" th:object="${user}">
+    <input name="name" type="hidden" placeholder="id" th:field="*{id}"> <br>
+        <input th:field="*{name}" type="text"  class="form-control"> <br>
+        <input th:field="*{surname}"  th:type="${user.id==0} ? 'text' : 'hidden' "  class="form-control"> <br>
+        <input th:field="*{email}"  th:type="${user.id==0} ? 'text' : 'hidden' "  class="form-control"> <br>
+        <input th:field="*{password}"  type="password" placeholder="password" class="form-control"> <br>
+        <input th:field="*{age}"  type="number" placeholder="age" class="form-control"> <br>
+    Blocked: <select  th:field="*{blocked}">
+    <option th:value="0">0</option>
+    <option th:value="1">1</option>
+</select><br><br>
+        userType: <select th:field="*{userType}">
+        <option th:value="ADMIN">ADMIN</option>
+        <option th:value="USER">USER</option>
+    </select><br>
+
+        <input type="submit" th:value="${user.id==0} ? 'Register user' : 'Edit user'" class="registerbtn"> <br>
+
+
+</form>
+</body>
+</html>
