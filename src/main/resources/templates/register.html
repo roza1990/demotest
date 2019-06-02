@@ -1,30 +1,60 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+<style>
+    .error {
+        color: red;
+    }
+</style>
+
+<div class="container">
+    <form th:action="@{/user/register}" method="post" style="margin: 0 auto;
+    width: 50%;" th:object="${user}">
+        <input name="name" type="hidden" placeholder="id" th:field="*{id}">
+        <span th:errors="*{name}" class="error"></span><br>
+        <label for="sel">Name:</label>
+        <input th:field="*{name}" type="text" class="form-control">
+        <span th:errors="*{surname}" class="error"></span><br>
+        <label for="sel">Surname:</label>
+        <input th:field="*{surname}" th:type="text" class="form-control">
+        <span th:errors="*{email}" class="error"></span><br>
+        <label for="sel">Email:</label>
+        <input th:field="*{email}" th:type="text" class="form-control">
+        <label for="sel">Password:</label>
+        <input th:field="*{password}" type="password" placeholder="password" class="form-control">
+        <span th:errors="*{age}" class="error"></span><br>
+        <label for="sel">Age:</label>
+        <input th:field="*{age}" type="number" placeholder="age" class="form-control">
+
+        <label for="sel">Blocked:</label>
+
+        <select th:field="*{blocked}" class="form-control" id="sel" name="sellist1">
+            <option th:value="0">0</option>
+            <option th:value="1">1</option>
+        </select>
+
+        <label for="sel1">UserType:</label>
+
+        <select th:field="*{userType}" class="form-control" id="sel1" name="sellist1">
+            <option th:value="ADMIN">ADMIN</option>
+            <option th:value="USER">USER</option>
+        </select>
+        <br>
 
 
-<form th:action="@{/register}"  method="post" style="text-align: center" th:object="${user}">
-    <input name="name" type="hidden" placeholder="id" th:field="*{id}"> <br>
-        <input th:field="*{name}" type="text"  class="form-control"> <br>
-        <input th:field="*{surname}"  th:type="${user.id==0} ? 'text' : 'hidden' "  class="form-control"> <br>
-        <input th:field="*{email}"  th:type="${user.id==0} ? 'text' : 'hidden' "  class="form-control"> <br>
-        <input th:field="*{password}"  type="password" placeholder="password" class="form-control"> <br>
-        <input th:field="*{age}"  type="number" placeholder="age" class="form-control"> <br>
-    Blocked: <select  th:field="*{blocked}">
-    <option th:value="0">0</option>
-    <option th:value="1">1</option>
-</select><br><br>
-        userType: <select th:field="*{userType}">
-        <option th:value="ADMIN">ADMIN</option>
-        <option th:value="USER">USER</option>
-    </select><br>
-
-        <input type="submit" th:value="${user.id==0} ? 'Register user' : 'Edit user'" class="registerbtn"> <br>
+        <input type="submit" th:value="${user.id==0} ? 'Register user' : 'Edit user'" role="button"
+               class="btn btn-success"> <br>
 
 
-</form>
+    </form>
+</div>
 </body>
 </html>
