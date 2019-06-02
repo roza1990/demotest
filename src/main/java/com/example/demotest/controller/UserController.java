@@ -55,7 +55,7 @@ public class UserController {
 
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('ADMIN')")
+    
     public String user(@AuthenticationPrincipal
                                SpringUser springUser, Model map) {
         User current = springUser.getUser();
@@ -117,12 +117,10 @@ public class UserController {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        if (springUser.getUser().getUserType().equals("USER")) {
-            return "redirect:/user";
-        }
+        
 
         LOGGER.info("Usersuccessfully registreated!");
-        return "redirect:/admin";
+        return "redirect:/login";
     }
 }
 
