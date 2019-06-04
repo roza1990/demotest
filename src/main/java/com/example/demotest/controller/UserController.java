@@ -95,7 +95,7 @@ public class UserController {
         if (us.isPresent()) {
             map.addObject("user", us.get());
         }
-        map.setViewName("register");
+        map.setViewName("edit");
         return map;
     }
 
@@ -108,7 +108,7 @@ public class UserController {
 
 
     @PostMapping("/user/register")
-    public String editById(@AuthenticationPrincipal
+    public String reg(@AuthenticationPrincipal
                                    SpringUser springUser, @ModelAttribute("user")
                            @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -117,10 +117,30 @@ public class UserController {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        
+        LOGGER.info("User successfully registreated!");
+        return "redirect:/admin";
+    }
 
-        LOGGER.info("Usersuccessfully registreated!");
-        return "redirect:/login";
+
+    @PostMapping("/user/edit")
+    public String edit(@AuthenticationPrincipal
+                                           SpringUser springUser, @ModelAttribute("user")
+                                   @Valid User user, BindingResult bindingResult,@RequestParam("id") int id,@RequestParam("name") String name,
+                       @RequestParam("age") int age) {
+//        if (bindingResult.hasErrors()) {
+//            return "edit";
+//
+//        }
+        //user.setEmail(user.getEmail());
+        //System.out.println(user.getEmail());
+
+        userRepository.update(id,name,age);
+        if(springUser.getUser().getUserType().equals("USER")){
+            return "redirect:/user";
+        }else{
+            return "redirect:/admin";
+        }
+
     }
 }
 

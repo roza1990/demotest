@@ -38,7 +38,7 @@ public class User {
     @NotEmpty(message = "Email may not be empty")
     private String email;
     @Column
-    @NotEmpty(message = "Password may not be empty")
+    //@NotEmpty(message = "Password may not be empty")
     //@Size(min = 6, max = 20, message = "Password must be between 10 and 20 characters long")
     private String password;
     @Column
