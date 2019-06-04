@@ -17,11 +17,11 @@ public interface UserRepository extends  JpaRepository<User, Integer>  {
     User findByEmail(String email);
 
 
-    @Transactional
-    @Modifying
-    @Query(value="UPDATE iguan_test_task set name=:name ,age=:age where id=:id",
-            nativeQuery = true)
-    void update(@Param("id") int id,@Param("name") String name,@Param("age") int age);
+//    @Transactional
+//    @Modifying
+//    @Query(value="UPDATE iguan_test_task set name=:name ,age=:age where id=:id",
+//            nativeQuery = true)
+//    void update(@Param("id") int id,@Param("name") String name,@Param("age") int age);
 
 
 }

@@ -32,11 +32,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessUrl("/")
                 .and()
-                .authorizeRequests();
+                .authorizeRequests()
 //                .antMatchers("/").permitAll()
 //                .antMatchers("/register").permitAll()
-//                .antMatchers("/user").hasAnyAuthority("USER", "ADMIN")
-//                .antMatchers("/admin").hasAuthority("ADMIN");
+              .antMatchers("/user").hasAnyAuthority("USER", "ADMIN")
+              .antMatchers("/admin").hasAuthority("ADMIN");
     }
 
     @Override

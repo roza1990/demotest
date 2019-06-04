@@ -13,6 +13,9 @@
     .error {
         color: red;
     }
+    select.user-button{
+display:none
+    }
 </style>
 
 <div class="container">
@@ -20,17 +23,15 @@
     width: 50%;" th:object="${user}">
         <input name="name" type="hidden" placeholder="id" th:field="*{id}">
         <span th:errors="*{name}" class="error"></span><br>
-        <label for="sel1">Name:</label>
+        <label>Name:</label>
         <input th:field="*{name}" type="text" class="form-control">
         <input th:field="*{surname}" type="hidden" class="form-control">
         <input th:field="*{email}" type="hidden" class="form-control">
         <span th:errors="*{age}" class="error"></span><br>
-        <label for="sel1">Age:</label>
+        <label>Age:</label>
         <input th:field="*{age}" type="number" placeholder="age" class="form-control">
-        <label for="sel1">Password:</label>
-        <input th:field="*{password}" type="password" placeholder="password" class="form-control">
-        <label for="sel1">UserType:</label>
-        <select th:field="*{userType}" class="form-control" id="sel1" name="sellist1">
+
+        <select  th:class="( ${current.userType =='ADMIN' } ? 'admin-button form-control' : ( ${current.userType == 'USER'} ? 'user-button form-control' : 'nothing' ) )" th:field="*{userType}"  id="sel1" name="sellist1">
             <option th:value="ADMIN">ADMIN</option>
             <option th:value="USER">USER</option>
         </select>

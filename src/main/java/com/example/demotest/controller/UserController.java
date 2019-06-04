@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -45,20 +46,17 @@ public class UserController {
 
     @GetMapping("/admin")
     public String admin(Model map) {
-
         List<User> all = userRepository.findAll();
         map.addAttribute("users", all);
         return "admin";
     }
 
 
-
-
     @GetMapping("/user")
-    
     public String user(@AuthenticationPrincipal
                                SpringUser springUser, Model map) {
         User current = springUser.getUser();
+        current = userRepository.findById(current.getId()).get();
         current.setLastLoginTime(new Date());
         userRepository.save(current);
         map.addAttribute("current", current);
@@ -90,9 +88,14 @@ public class UserController {
     }
 
     @GetMapping("/user/edit")
-    public ModelAndView edit(@RequestParam("id") int id, ModelAndView map) {
+    public ModelAndView edit(@AuthenticationPrincipal
+                                     SpringUser springUser, @RequestParam("id") int id, ModelAndView map) {
         Optional<User> us = userRepository.findById(id);
         if (us.isPresent()) {
+            User current = springUser.getUser();
+            current = userRepository.findById(current.getId()).get();
+            System.out.println(current);
+            map.addObject("current", current);
             map.addObject("user", us.get());
         }
         map.setViewName("edit");
@@ -109,8 +112,8 @@ public class UserController {
 
     @PostMapping("/user/register")
     public String reg(@AuthenticationPrincipal
-                                   SpringUser springUser, @ModelAttribute("user")
-                           @Valid User user, BindingResult bindingResult) {
+                              SpringUser springUser, @ModelAttribute("user")
+                      @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "register";
 
@@ -124,20 +127,22 @@ public class UserController {
 
     @PostMapping("/user/edit")
     public String edit(@AuthenticationPrincipal
-                                           SpringUser springUser, @ModelAttribute("user")
-                                   @Valid User user, BindingResult bindingResult,@RequestParam("id") int id,@RequestParam("name") String name,
-                       @RequestParam("age") int age) {
-//        if (bindingResult.hasErrors()) {
-//            return "edit";
-//
-//        }
-        //user.setEmail(user.getEmail());
-        //System.out.println(user.getEmail());
+                               SpringUser springUser, @ModelAttribute("user")
+                       @Valid User user, BindingResult bindingResult, RedirectAttributes map) {
+        if (bindingResult.hasErrors()) {
+            return "edit";
 
-        userRepository.update(id,name,age);
-        if(springUser.getUser().getUserType().equals("USER")){
+        }
+
+        String pass = userRepository.findById(user.getId()).get().getPassword();
+        //String role=userRepository.findById(user.getId()).get().getUserType();
+        user.setPassword(pass);
+        //user.setUserType(role);
+        userRepository.save(user);
+
+        if (springUser.getUser().getUserType().equals("USER")) {
             return "redirect:/user";
-        }else{
+        } else {
             return "redirect:/admin";
         }
 
